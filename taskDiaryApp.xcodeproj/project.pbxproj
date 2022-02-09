@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E913D6A227B3012200D17A02 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913D6A127B3012200D17A02 /* CalendarDayCollectionViewCell.swift */; };
+		E913D6A427B30E0900D17A02 /* DetailTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913D6A327B30E0800D17A02 /* DetailTaskViewController.swift */; };
 		E9E290BA27B15AEE00AEAC98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290B927B15AEE00AEAC98 /* AppDelegate.swift */; };
 		E9E290BC27B15AEE00AEAC98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290BB27B15AEE00AEAC98 /* SceneDelegate.swift */; };
 		E9E290BE27B15AEE00AEAC98 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290BD27B15AEE00AEAC98 /* CalendarViewController.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E913D6A127B3012200D17A02 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
+		E913D6A327B30E0800D17A02 /* DetailTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskViewController.swift; sourceTree = "<group>"; };
 		E9E290B627B15AEE00AEAC98 /* taskDiaryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = taskDiaryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E290B927B15AEE00AEAC98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9E290BB27B15AEE00AEAC98 /* SceneDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E913D6A527B30E1100D17A02 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E913D6A327B30E0800D17A02 /* DetailTaskViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		E9E290AD27B15AEE00AEAC98 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +80,7 @@
 				E9E290B927B15AEE00AEAC98 /* AppDelegate.swift */,
 				E9E290BB27B15AEE00AEAC98 /* SceneDelegate.swift */,
 				E9E290CD27B1668F00AEAC98 /* Main */,
+				E913D6A527B30E1100D17A02 /* Detail */,
 				E9E290C227B15AEF00AEAC98 /* Assets.xcassets */,
 				E9E290C427B15AEF00AEAC98 /* LaunchScreen.storyboard */,
 				E9E290C727B15AEF00AEAC98 /* Info.plist */,
@@ -92,6 +105,7 @@
 				E9E290D127B1856300AEAC98 /* CalendarHeaderView.swift */,
 				E9E290D627B1A8F000AEAC98 /* TaskTableViewCell.swift */,
 				E9E290D827B1AC2A00AEAC98 /* TaskInfoView.swift */,
+				E913D6A127B3012200D17A02 /* CalendarDayCollectionViewCell.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -187,9 +201,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E913D6A227B3012200D17A02 /* CalendarDayCollectionViewCell.swift in Sources */,
 				E9E290D727B1A8F000AEAC98 /* TaskTableViewCell.swift in Sources */,
 				E9E290BE27B15AEE00AEAC98 /* CalendarViewController.swift in Sources */,
 				E9E290BA27B15AEE00AEAC98 /* AppDelegate.swift in Sources */,
+				E913D6A427B30E0900D17A02 /* DetailTaskViewController.swift in Sources */,
 				E9E290BC27B15AEE00AEAC98 /* SceneDelegate.swift in Sources */,
 				E9E290D227B1856300AEAC98 /* CalendarHeaderView.swift in Sources */,
 				E9E290D427B1877B00AEAC98 /* Task.swift in Sources */,

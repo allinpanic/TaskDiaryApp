@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.windowScene = windowScene
 
-    let viewController = CalendarViewController()
-    window?.rootViewController = viewController
+    let calendarViewController = CalendarViewController()
+    let navigationController = UINavigationController(rootViewController: calendarViewController)
+    window!.rootViewController = navigationController
     window?.makeKeyAndVisible()
     print("scene delegate")
   }

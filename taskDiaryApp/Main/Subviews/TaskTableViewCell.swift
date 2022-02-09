@@ -20,7 +20,6 @@ final class TaskTableViewCell: UITableViewCell {
   var hour: String! {
     didSet {
       hourLabel.text = hour
-//      hourLabel.sizeToFit()
     }
   }
 
@@ -38,7 +37,7 @@ final class TaskTableViewCell: UITableViewCell {
     view.isHidden = true
     view.backgroundColor = UIColor(named: "TaskColor")?.withAlphaComponent(0.2)
     view.layer.cornerRadius = 12
-//    view.clipsToBounds
+    view.clipsToBounds = true
     return view
   }()
 

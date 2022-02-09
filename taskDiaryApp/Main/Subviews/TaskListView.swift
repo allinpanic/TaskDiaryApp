@@ -18,7 +18,7 @@ final class TaskListView: UIView {
 
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "dayCell")
+    collectionView.register(CalendarDayCollectionViewCell.self, forCellWithReuseIdentifier: "dayCell")
     collectionView.register(CalendarHeaderView.self,
                             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                             withReuseIdentifier: "header")
@@ -29,7 +29,6 @@ final class TaskListView: UIView {
   var taskListTableView: UITableView = {
     let tableView = UITableView()
     tableView.translatesAutoresizingMaskIntoConstraints = false
-//    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "taskCell")
     tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "taskCell")
     tableView.backgroundColor = .darkGray
     return tableView

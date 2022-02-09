@@ -18,6 +18,30 @@ final class CalendarViewController: UIViewController {
     return view
   }()
 
+  private let calendar = Calendar.current
+  private lazy var dateFormatter: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "d"
+      return dateFormatter
+    }()
+  private var selectedDate: Date = Date() // {
+  var selectedIndexPath : IndexPath? 
+//    didSet {
+//      contentView.calendarCollectionView.reloadData()
+//    }
+//  }
+//  private let selectedDateChanged: ((Date) -> Void) = {_ in}
+  private var baseDate: Date = Date() {
+    didSet {
+      days = generateDaysInMonth(for: baseDate)
+      contentView.calendarCollectionView.reloadData()
+    }
+  }
+  private lazy var days = generateDaysInMonth(for: baseDate)
+  private var numberOfWeeksInBaseDate: Int {
+    calendar.range(of: .weekOfMonth, in: .month, for: baseDate)?.count ?? 0
+  }
+
   override func loadView() {
     super.loadView()
 
@@ -27,6 +51,7 @@ final class CalendarViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    print("base date - \(baseDate)")
     view.backgroundColor = .white
   }
 
@@ -34,14 +59,24 @@ final class CalendarViewController: UIViewController {
 
 extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 31
+    // return 31
+
+    return days.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dayCell", for: indexPath)
-    cell.backgroundColor = .cyan.withAlphaComponent(0.1)
-    cell.layer.cornerRadius = 12
-    cell.clipsToBounds = true
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dayCell",
+                                                        for: indexPath) as? CalendarDayCollectionViewCell
+    else { return UICollectionViewCell() }
+
+    cell.day = days[indexPath.row]
+
+    if let selected = selectedIndexPath, selected == indexPath {
+      cell.updateSelectionView(isSelected: true)
+    } else {
+      cell.updateSelectionView(isSelected: false)
+    }
+
     return cell
   }
 
@@ -59,10 +94,16 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollecti
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("date selected")
-//    contentView.taskListTableView.reloadData()
 
-//    let cell = collectionView.cellForItem(at: indexPath)
-//    cell?.backgroundColor = .magenta.withAlphaComponent(0.2)
+    let day = days[indexPath.row]
+    selectedDate = day.date
+
+    var cellsToReload = [indexPath]
+    if let selected = selectedIndexPath {
+      cellsToReload.append(selected)
+    }
+    selectedIndexPath = indexPath
+    collectionView.reloadItems(at: cellsToReload)
   }
 }
 
@@ -91,11 +132,95 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
 
     let cell = tableView.cellForRow(at: indexPath) as? TaskTableViewCell
 
-    if cell?.task != nil {
+    if let task = cell?.task {
       print("go to detail view")
+      let dateilViewController = DetailTaskViewController(task: task)
+      navigationController?.pushViewController(dateilViewController, animated: true)
     } else {
       print("no task")
     }
 
   }
+}
+
+// MARK: - Day Generation
+private extension CalendarViewController {
+  // получить данные о месяце из начальной даты
+  func getMonth(for baseDate: Date) throws -> Month {
+    let baseDateMonth = calendar.dateComponents([.year, .month], from: baseDate)
+    print("baseDate month - \(baseDateMonth)")
+    guard
+      let numberOfDaysInMonth = calendar.range(of: .day, in: .month, for: baseDate)?.count,
+      let firstDayOfMonth = calendar.date(from: baseDateMonth)
+    else {
+      throw CalendarDataError.metadataGeneration
+    }
+
+    let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth) - 1
+    print("firstDayOf month = \(firstDayOfMonth)")
+    print("first weekday - \(firstDayWeekday)")
+
+    return Month(
+      numberOfDays: numberOfDaysInMonth,
+      firstDay: firstDayOfMonth,
+      firstDayWeekday: firstDayWeekday)
+  }
+
+  enum CalendarDataError: Error {
+    case metadataGeneration
+  }
+
+  // сгенерировать дни месяца
+  func generateDaysInMonth(for baseDate: Date) -> [Day] {
+    guard let metadata = try? getMonth(for: baseDate) else {
+      fatalError("An error occurred when generating the metadata for \(baseDate)")
+    }
+
+    let numberOfDaysInMonth = metadata.numberOfDays
+    let offsetInInitialRow = metadata.firstDayWeekday
+    print(metadata.firstDayWeekday)
+    let firstDayOfMonth = metadata.firstDay
+
+    var days: [Day] = (1..<(numberOfDaysInMonth + offsetInInitialRow)).map { day in
+      let isWithinDisplayedMonth = day >= offsetInInitialRow
+      let dayOffset = isWithinDisplayedMonth ?
+      day - offsetInInitialRow :
+      -(offsetInInitialRow - day)
+
+      return generateDay(offsetBy: dayOffset, for: firstDayOfMonth, isWithinDisplayedMonth: isWithinDisplayedMonth)
+    }
+
+    days += generateStartOfNextMonth(using: firstDayOfMonth)
+
+    return days
+  }
+
+  // сгенерировать конкретный день
+  func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isWithinDisplayedMonth: Bool) -> Day {
+    let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
+
+    return Day(
+      date: date,
+      number: dateFormatter.string(from: date),
+      tasks: nil,
+      isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
+      isWithinDisplayedMonth: isWithinDisplayedMonth
+    )
+  }
+
+  func generateStartOfNextMonth(using firstDayOfDisplayedMonth: Date) -> [Day] {
+    guard let lastDayInMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1),
+                                             to: firstDayOfDisplayedMonth)
+    else { return [] }
+
+    let additionalDays = 7 - calendar.component(.weekday, from: lastDayInMonth)
+    guard additionalDays > 0 else { return [] }
+
+    let days: [Day] = (1...additionalDays).map {
+      generateDay(offsetBy: $0, for: lastDayInMonth, isWithinDisplayedMonth: false)
+    }
+
+    return days
+  }
+
 }

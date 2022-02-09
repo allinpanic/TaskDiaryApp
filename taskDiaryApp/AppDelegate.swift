@@ -18,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     } else {
       self.window = UIWindow()
       let calendarViewController = CalendarViewController()
-      self.window!.rootViewController = calendarViewController
+      let navigationController = UINavigationController(rootViewController: calendarViewController)
+      self.window!.rootViewController = navigationController
       self.window!.makeKeyAndVisible()
       print("app delegate")
     }

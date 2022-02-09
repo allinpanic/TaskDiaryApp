@@ -24,15 +24,6 @@ final class CalendarHeaderView: UICollectionReusableView {
     return label
   }()
 
-//  private var yearLabel: UILabel = {
-//    let label = UILabel()
-//    label.translatesAutoresizingMaskIntoConstraints = false
-//    label.text = "2021"
-//    label.font = .systemFont(ofSize: 16, weight: .semibold)
-//    label.textColor = UIColor(named: "AccentColor")
-//    return label
-//  }()
-
   private var leftButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +52,6 @@ final class CalendarHeaderView: UICollectionReusableView {
 
   private func setupLayout() {
     addSubview(monthLabel)
-//    addSubview(yearLabel)
     addSubview(leftButton)
     addSubview(rightButton)
 
