@@ -37,7 +37,8 @@ final class CalendarHeaderView: UICollectionReusableView {
   private lazy var leftButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("before", for: .normal)
+//    button.setTitle("previous", for: .normal)
+    button.setImage(UIImage(named: "left"), for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     button.addTarget(self, action: #selector(leftButtonPressed), for: .touchUpInside)
     return button
@@ -46,7 +47,8 @@ final class CalendarHeaderView: UICollectionReusableView {
   private lazy var rightButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("next", for: .normal)
+//    button.setTitle("next", for: .normal)
+    button.setImage(UIImage(named: "right"), for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     button.addTarget(self, action: #selector(rightButtonPressed), for: .touchUpInside)
     return button
@@ -74,12 +76,12 @@ final class CalendarHeaderView: UICollectionReusableView {
       leftButton.centerYAnchor.constraint(equalTo: centerYAnchor),
       leftButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
       leftButton.heightAnchor.constraint(equalToConstant: 20),
-      leftButton.widthAnchor.constraint(equalToConstant: 50),
+      leftButton.widthAnchor.constraint(equalToConstant: 20),
 
       rightButton.centerYAnchor.constraint(equalTo: centerYAnchor),
       rightButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
       rightButton.heightAnchor.constraint(equalToConstant: 20),
-      rightButton.widthAnchor.constraint(equalToConstant: 50)
+      rightButton.widthAnchor.constraint(equalToConstant: 20)
     ])
   }
 

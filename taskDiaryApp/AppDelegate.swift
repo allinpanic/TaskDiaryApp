@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let navigationController = UINavigationController(rootViewController: calendarViewController)
       self.window!.rootViewController = navigationController
       self.window!.makeKeyAndVisible()
-      print("app delegate")
     }
 
     return true

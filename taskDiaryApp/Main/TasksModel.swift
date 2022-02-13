@@ -29,9 +29,8 @@ final class TasksModel: TaskModelProtocol {
 
   private func parseJson(json: Data) -> [Task]? {
     let decoder = JSONDecoder()
-
     guard let items =  try? decoder.decode(Tasks.self, from: json) else {return nil}
-    print(items.items[0].dateStart)
+
     return items.items
   }
 
@@ -76,7 +75,7 @@ final class TasksModel: TaskModelProtocol {
 
   private func getMonth(for baseDate: Date) throws -> Month {
     let baseDateMonth = calendar.dateComponents([.year, .month], from: baseDate)
-    print("baseDate month - \(baseDateMonth)")
+
     guard
       let numberOfDaysInMonth = calendar.range(of: .day, in: .month, for: baseDate)?.count,
       let firstDayOfMonth = calendar.date(from: baseDateMonth)
@@ -85,8 +84,6 @@ final class TasksModel: TaskModelProtocol {
     }
 
     let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth) - 1
-    print("firstDayOf month = \(firstDayOfMonth)")
-    print("first weekday - \(firstDayWeekday)")
 
     return Month(
       numberOfDays: numberOfDaysInMonth,
@@ -101,7 +98,6 @@ final class TasksModel: TaskModelProtocol {
 
     let numberOfDaysInMonth = metadata.numberOfDays
     let offsetInInitialRow = metadata.firstDayWeekday
-    print(metadata.firstDayWeekday)
     let firstDayOfMonth = metadata.firstDay
 
     var days: [Day] = (1..<(numberOfDaysInMonth + offsetInInitialRow)).map { day in

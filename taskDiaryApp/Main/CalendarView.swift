@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol CalendarViewProtocol: AnyObject {
+  var calendarCollectionView: UICollectionView {get set}
+  var taskListTableView: UITableView {get set}
+
+}
+
 final class CalendarView: UIView {
 
   var calendarCollectionView: UICollectionView = {

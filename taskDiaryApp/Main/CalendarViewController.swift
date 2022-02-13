@@ -53,6 +53,16 @@ final class CalendarViewController: UIViewController {
 
     navigationController?.navigationBar.prefersLargeTitles = false
     navigationController?.navigationBar.backgroundColor = .white
+
+    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+    navigationItem.rightBarButtonItem = addButton
+  }
+
+  @objc private func addButtonPressed() {
+   print("add button pressed")    
+    let viewController = AddTaskViewController()
+    navigationController?.pushViewController(viewController, animated: true)
+
   }
 }
 
@@ -135,7 +145,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
       for task in dayTasks {
         let taskString = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
         if hourPrefix == taskString {
-          print(taskString)
           cell.task = task
         }
       }
