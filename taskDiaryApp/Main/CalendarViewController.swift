@@ -9,8 +9,10 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
 
-  private lazy var contentView: TaskListView = {
-    let view = TaskListView()
+  let model = TasksModel()
+
+  lazy var contentView: CalendarView = {
+    let view = CalendarView()
     view.calendarCollectionView.delegate = self
     view.calendarCollectionView.dataSource = self
     view.taskListTableView.delegate = self
@@ -18,48 +20,46 @@ final class CalendarViewController: UIViewController {
     return view
   }()
 
-  private let calendar = Calendar.current
-  private lazy var dateFormatter: DateFormatter = {
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "d"
-      return dateFormatter
-    }()
-  private var selectedDate: Date = Date() // {
-  var selectedIndexPath : IndexPath? 
-//    didSet {
-//      contentView.calendarCollectionView.reloadData()
-//    }
-//  }
-//  private let selectedDateChanged: ((Date) -> Void) = {_ in}
+  private var selectedIndexPath: IndexPath?
   private var baseDate: Date = Date() {
     didSet {
-      days = generateDaysInMonth(for: baseDate)
+      days = model.generateDaysInMonth(for: baseDate)
       contentView.calendarCollectionView.reloadData()
     }
   }
-  private lazy var days = generateDaysInMonth(for: baseDate)
-  private var numberOfWeeksInBaseDate: Int {
-    calendar.range(of: .weekOfMonth, in: .month, for: baseDate)?.count ?? 0
-  }
+
+  private lazy var days = model.generateDaysInMonth(for: baseDate)
+  private var dayTasks: [Task] = []
 
   override func loadView() {
     super.loadView()
 
     view = contentView
+
+    model.getTasks()
   }
+
+  // MARK: - ViewDidLoad
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    print("base date - \(baseDate)")
     view.backgroundColor = .white
+    title = "Календарь"
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    navigationController?.navigationBar.prefersLargeTitles = false
+    navigationController?.navigationBar.backgroundColor = .white
+  }
 }
+
+// MARK: - CollectionView DataSource, Delegate
 
 extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // return 31
 
     return days.count
   }
@@ -87,16 +87,14 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollecti
                                                                        withReuseIdentifier: "header",
                                                                        for: indexPath) as? CalendarHeaderView
     else { return UICollectionReusableView() }
-    header.date = Date()
+    header.date = baseDate
+    header.delegate = self
 
     return header
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("date selected")
-
     let day = days[indexPath.row]
-    selectedDate = day.date
 
     var cellsToReload = [indexPath]
     if let selected = selectedIndexPath {
@@ -104,8 +102,14 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollecti
     }
     selectedIndexPath = indexPath
     collectionView.reloadItems(at: cellsToReload)
+
+    let tasks = model.getTasks(forDate: day.date)
+    dayTasks = tasks
+    contentView.taskListTableView.reloadData()
   }
 }
+
+// MARK: - TableView DataSource, Delegate
 
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,11 +121,24 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
                                                    for: indexPath) as? TaskTableViewCell
     else { return UITableViewCell()}
 
-    cell.hour = Constants.hours[indexPath.row]
-    if indexPath.row == 0 || indexPath.row == 3 || indexPath.row == 6 {
-      cell.task = Task(time: "10.00-12.00", name: "My Task")
-    } else {
-      cell.task = nil
+    let hour = Constants.hours[indexPath.row]
+
+    cell.hour = hour
+    cell.task = nil
+
+    if !dayTasks.isEmpty {
+      let hourPrefix = hour.prefix(2)
+
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "HH"
+
+      for task in dayTasks {
+        let taskString = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
+        if hourPrefix == taskString {
+          print(taskString)
+          cell.task = task
+        }
+      }
     }
 
     return cell
@@ -133,94 +150,22 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     let cell = tableView.cellForRow(at: indexPath) as? TaskTableViewCell
 
     if let task = cell?.task {
-      print("go to detail view")
       let dateilViewController = DetailTaskViewController(task: task)
       navigationController?.pushViewController(dateilViewController, animated: true)
-    } else {
-      print("no task")
     }
-
   }
 }
 
-// MARK: - Day Generation
-private extension CalendarViewController {
-  // получить данные о месяце из начальной даты
-  func getMonth(for baseDate: Date) throws -> Month {
-    let baseDateMonth = calendar.dateComponents([.year, .month], from: baseDate)
-    print("baseDate month - \(baseDateMonth)")
-    guard
-      let numberOfDaysInMonth = calendar.range(of: .day, in: .month, for: baseDate)?.count,
-      let firstDayOfMonth = calendar.date(from: baseDateMonth)
-    else {
-      throw CalendarDataError.metadataGeneration
-    }
+// MARK: - CalendarHeaderViewDelegate
 
-    let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth) - 1
-    print("firstDayOf month = \(firstDayOfMonth)")
-    print("first weekday - \(firstDayWeekday)")
-
-    return Month(
-      numberOfDays: numberOfDaysInMonth,
-      firstDay: firstDayOfMonth,
-      firstDayWeekday: firstDayWeekday)
+extension CalendarViewController: CalendarHeaderViewDelegate {
+  func gotoNextMonth(_ headerView: CalendarHeaderView) {
+    guard let nextMonthDate = Calendar.current.date(byAdding: .month, value: 1, to: baseDate) else {return}
+    baseDate = nextMonthDate
   }
 
-  enum CalendarDataError: Error {
-    case metadataGeneration
+  func gotoPreviousMonth(_ headerView: CalendarHeaderView) {
+    guard let previousMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: baseDate) else {return}
+    baseDate = previousMonthDate
   }
-
-  // сгенерировать дни месяца
-  func generateDaysInMonth(for baseDate: Date) -> [Day] {
-    guard let metadata = try? getMonth(for: baseDate) else {
-      fatalError("An error occurred when generating the metadata for \(baseDate)")
-    }
-
-    let numberOfDaysInMonth = metadata.numberOfDays
-    let offsetInInitialRow = metadata.firstDayWeekday
-    print(metadata.firstDayWeekday)
-    let firstDayOfMonth = metadata.firstDay
-
-    var days: [Day] = (1..<(numberOfDaysInMonth + offsetInInitialRow)).map { day in
-      let isWithinDisplayedMonth = day >= offsetInInitialRow
-      let dayOffset = isWithinDisplayedMonth ?
-      day - offsetInInitialRow :
-      -(offsetInInitialRow - day)
-
-      return generateDay(offsetBy: dayOffset, for: firstDayOfMonth, isWithinDisplayedMonth: isWithinDisplayedMonth)
-    }
-
-    days += generateStartOfNextMonth(using: firstDayOfMonth)
-
-    return days
-  }
-
-  // сгенерировать конкретный день
-  func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isWithinDisplayedMonth: Bool) -> Day {
-    let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
-
-    return Day(
-      date: date,
-      number: dateFormatter.string(from: date),
-      tasks: nil,
-      isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
-      isWithinDisplayedMonth: isWithinDisplayedMonth
-    )
-  }
-
-  func generateStartOfNextMonth(using firstDayOfDisplayedMonth: Date) -> [Day] {
-    guard let lastDayInMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1),
-                                             to: firstDayOfDisplayedMonth)
-    else { return [] }
-
-    let additionalDays = 7 - calendar.component(.weekday, from: lastDayInMonth)
-    guard additionalDays > 0 else { return [] }
-
-    let days: [Day] = (1...additionalDays).map {
-      generateDay(offsetBy: $0, for: lastDayInMonth, isWithinDisplayedMonth: false)
-    }
-
-    return days
-  }
-
 }

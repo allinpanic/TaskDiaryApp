@@ -7,13 +7,23 @@
 
 import UIKit
 
+protocol CalendarHeaderViewDelegate: AnyObject {
+  func gotoNextMonth(_ headerView: CalendarHeaderView)
+  func gotoPreviousMonth(_ headerView: CalendarHeaderView)
+}
+
 final class CalendarHeaderView: UICollectionReusableView {
 
   var date: Date! {
     didSet {
-      print("got date")
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMMM yyyy"
+      let monthYear = dateFormatter.string(for: date)
+      monthLabel.text = monthYear
     }
   }
+
+  weak var delegate: CalendarHeaderViewDelegate?
 
   private var monthLabel: UILabel = {
     let label = UILabel()
@@ -24,19 +34,21 @@ final class CalendarHeaderView: UICollectionReusableView {
     return label
   }()
 
-  private var leftButton: UIButton = {
+  private lazy var leftButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle("before", for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
+    button.addTarget(self, action: #selector(leftButtonPressed), for: .touchUpInside)
     return button
   }()
 
-  private var rightButton: UIButton = {
+  private lazy var rightButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle("next", for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
+    button.addTarget(self, action: #selector(rightButtonPressed), for: .touchUpInside)
     return button
   }()
 
@@ -71,4 +83,13 @@ final class CalendarHeaderView: UICollectionReusableView {
     ])
   }
 
+  @objc private func leftButtonPressed() {
+    delegate?.gotoPreviousMonth(self)
+    // reload table view
+  }
+
+  @objc private func rightButtonPressed() {
+    delegate?.gotoNextMonth(self)
+    // reload table view
+  }
 }

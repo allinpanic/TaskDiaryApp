@@ -41,28 +41,6 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     }
   }
 
-//  var isCellSelected: Bool? {
-//    didSet {
-//      guard let isCellSelected = isSelected,
-//            let day = day
-//      else { return }
-//      if isSelected {
-//        if day.isWithinDisplayedMonth {
-//          numberLabel.textColor = .white
-//          selectionBackgroundView.isHidden = false
-//        }
-//      } else {
-//        if day.isWithinDisplayedMonth {
-//          numberLabel.textColor = .darkGray
-//        } else {
-//          numberLabel.textColor = .lightGray
-//        }
-//        selectionBackgroundView.isHidden = true
-//      }
-//
-//    }
-//  }
-
   private lazy var selectionBackgroundView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false

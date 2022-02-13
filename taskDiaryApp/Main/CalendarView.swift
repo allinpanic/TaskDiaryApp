@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TaskListView: UIView {
+final class CalendarView: UIView {
 
   var calendarCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -35,14 +35,14 @@ final class TaskListView: UIView {
   }()
 
   override init(frame: CGRect) {
-      super.init(frame: frame)
+    super.init(frame: frame)
 
-      setupLayout()
-    }
+    setupLayout()
+  }
 
-    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-    }
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   private func setupLayout() {
     addSubview(calendarCollectionView)
@@ -52,7 +52,7 @@ final class TaskListView: UIView {
       calendarCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
       calendarCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
       calendarCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-      calendarCollectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
+      calendarCollectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 30),
 
       taskListTableView.topAnchor.constraint(equalTo: calendarCollectionView.bottomAnchor),
       taskListTableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
@@ -61,5 +61,4 @@ final class TaskListView: UIView {
 
     ])
   }
-
 }

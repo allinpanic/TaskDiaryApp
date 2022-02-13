@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let navigationController = UINavigationController(rootViewController: calendarViewController)
     window!.rootViewController = navigationController
     window?.makeKeyAndVisible()
-    print("scene delegate")
   }
 
   func sceneDidDisconnect(_ scene: UIScene) {

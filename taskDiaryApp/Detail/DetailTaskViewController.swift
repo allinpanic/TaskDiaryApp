@@ -14,7 +14,8 @@ final class DetailTaskViewController: UIViewController {
 //      nameLabel.text = task.name
 //      dateLabel.text = "9 february 2022"
 //      timeLabel.text = "10:00 - 11:00"
-//      descriptionTextView.text = "fvbksjlkjbngk dvblbdkjbngklbm dhvbkzhldfn kdjfbvkjdf sjfbvkjdfv jvbfkjvnlkfd jkfbvkjdfb jxfbjfb kjbkjfb jblnblkn"
+//      descriptionTextView.text = "fvbksjlkjbngk dvblbdkjbngklbm dhvbkzhldfn
+//      kdjfbvkjdf sjfbvkjdfv jvbfkjvnlkfd jkfbvkjdfb jxfbjfb kjbkjfb jblnblkn"
       // convert start date and end date to time interval and to string
       // convert it to date dd-mm-yyyy
       // description
@@ -70,13 +71,13 @@ final class DetailTaskViewController: UIViewController {
 
     navigationController?.navigationBar.prefersLargeTitles = true
     title = task.name
-//    navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-//    navigationController?.navigationBar.backgroundColor = UIColor(named: "AccentColor")
+    navigationController?.navigationBar.largeTitleTextAttributes = [ .foregroundColor: UIColor.white ]
+    navigationController?.navigationBar.backgroundColor = UIColor(named: "AccentColor")
 
     nameLabel.text = task.name
     dateLabel.text = "9 february 2022"
     timeLabel.text = "10:00 - 11:00"
-    descriptionTextView.text = "fvbksjlkjbngk dvblbdkjbngklbm dhvbkzhldfn kdjfbvkjdf sjfbvkjdfv jvbfkjvnlkfd jkfbvkjdfb jxfbjfb kjbkjfb jblnblkn"
+    descriptionTextView.text = "fvbksjlkjbngk dvblbdkjbngklbm dhvbkzhldfn kdjfbvkjdf sjfbvkjdfv"
   }
 
   private func setupLayout() {

@@ -10,7 +10,10 @@ import UIKit
 final class TaskTableViewCell: UITableViewCell {
   var task: Task? {
     didSet {
-      guard let task = task else { return }
+      guard let task = task else {
+        taskInfoView.isHidden = true
+        return
+      }
 
       taskInfoView.task = task
       taskInfoView.isHidden = false

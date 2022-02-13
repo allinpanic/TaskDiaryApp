@@ -10,7 +10,13 @@ import UIKit
 final class TaskInfoView: UIView {
   var task: Task! {
     didSet {
-      timeLabel.text = task.time
+
+      let dateFormatter = DateFormatter()
+      dateFormatter.locale = Locale(identifier: "ru_RU")
+      dateFormatter.dateFormat = "HH:mm"
+      let start = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
+      let finish = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateFinish))
+      timeLabel.text = start + " - " + finish    // task.dateStart.description
       timeLabel.sizeToFit()
       nameLabel.text = task.name
       nameLabel.sizeToFit()
