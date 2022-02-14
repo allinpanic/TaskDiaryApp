@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.windowScene = windowScene
-//    guard let realm = try? Realm() else {fatalError()}
 
     var config = Realm.Configuration()
     config.deleteRealmIfMigrationNeeded = true
@@ -28,7 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     let calendarViewController = CalendarViewController()
     let calendarModel = CalendarModel()
+    let calendarView = CalendarView()
     calendarViewController.calendarModel = calendarModel
+    calendarViewController.contentView = calendarView
     let navigationController = UINavigationController(rootViewController: calendarViewController)
     window!.rootViewController = navigationController
     window?.makeKeyAndVisible()
@@ -46,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func sceneWillEnterForeground(_ scene: UIScene) {
   }
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-    }
+  func sceneDidEnterBackground(_ scene: UIScene) {
+  }
 
 }

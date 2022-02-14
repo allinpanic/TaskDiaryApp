@@ -10,13 +10,8 @@ import UIKit
 final class TaskInfoView: UIView {
   var task: Task! {
     didSet {
-
-      let dateFormatter = DateFormatter()
-      dateFormatter.locale = Locale(identifier: "ru_RU")
-      dateFormatter.dateFormat = "HH:mm"
-      let start = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
-      let finish = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateFinish))
-      timeLabel.text = start + " - " + finish    // task.dateStart.description
+      timeLabel.text = makeTimeIntervalString(startTime: task.dateStart,
+                                              finishTime: task.dateFinish)
       timeLabel.sizeToFit()
       nameLabel.text = task.name
       nameLabel.sizeToFit()
@@ -58,9 +53,17 @@ final class TaskInfoView: UIView {
       timeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       timeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
 
-//      nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
       nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
       nameLabel.leadingAnchor.constraint(equalTo: timeLabel.trailingAnchor, constant: 16)
     ])
+  }
+
+  private func makeTimeIntervalString(startTime: Double, finishTime: Double) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "ru_RU")
+    dateFormatter.dateFormat = "HH:mm"
+    let start = dateFormatter.string(from: Date(timeIntervalSince1970: startTime))
+    let finish = dateFormatter.string(from: Date(timeIntervalSince1970: finishTime))
+    return start + " - " + finish
   }
 }

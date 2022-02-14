@@ -12,7 +12,6 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
   var day: Day? {
     didSet {
       guard let day = day else { return }
-
       numberLabel.text = day.number
     }
   }

@@ -7,13 +7,12 @@
 
 import UIKit
 
-protocol CalendarViewProtocol: AnyObject {
+protocol CalendarViewProtocol: UIView {
   var calendarCollectionView: UICollectionView {get set}
   var taskListTableView: UITableView {get set}
-
 }
 
-final class CalendarView: UIView {
+final class CalendarView: UIView, CalendarViewProtocol {
 
   var calendarCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()

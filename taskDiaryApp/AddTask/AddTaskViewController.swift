@@ -10,7 +10,6 @@ import UIKit
 final class AddTaskViewController: UIViewController {
 
   var contentView: AddTaskView!
-
   var addTaskModel: AddTaskModelProtocol!
 
   override func loadView() {
@@ -34,7 +33,6 @@ extension AddTaskViewController: AddTaskViewDelegate {
   }
 
   func saveTask(_ addTaskView: AddTaskView, name: String, startTime: Date, endTime: Date, description: String) {
-    print("delegate go to model")
     addTaskModel.saveTask(name: name, startTime: startTime, endTime: endTime, description: description)
 
     navigationController?.popViewController(animated: true)

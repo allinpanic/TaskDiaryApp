@@ -13,7 +13,6 @@ protocol CalendarModelProtocol: AnyObject {
   func getTasks()
   func generateDaysInMonth(for baseDate: Date) -> [Day]
   func numberOfWeeksInBaseDate(baseDate: Date) -> Int
-//  func getTasks(forDate date: Date) // -> [Task]
 
   var dayTasks: LazyFilterSequence<Results<Task>> { get }
   var selectedDate: Date { get set }
@@ -38,7 +37,6 @@ final class CalendarModel: CalendarModelProtocol {
   }
 
   var selectedDate: Date = Date()
-//  lazy var realm = try! Realm()
 
   private let calendar = Calendar.current
   private lazy var dateFormatter: DateFormatter = {
@@ -59,19 +57,17 @@ final class CalendarModel: CalendarModelProtocol {
     guard let jsondata = json.data(using: .utf8) else {return}
 
     guard let tasks = parseJson(json: jsondata) else {return}
-//    self.tasks = tasks
-
     writeToRealm(tasks: tasks)
   }
 
   private func writeToRealm(tasks: [Task]) {
     lazy var realm = try! Realm()
 
-      try! realm.write {
-        for task in tasks {
-          realm.add(task, update: .all)
-        }
+    try! realm.write {
+      for task in tasks {
+        realm.add(task, update: .all)
       }
+    }
   }
 
 // MARK: - Calendar functions
@@ -121,15 +117,12 @@ final class CalendarModel: CalendarModelProtocol {
     return days
   }
 
-  // сгенерировать конкретный день
   private func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isWithinDisplayedMonth: Bool) -> Day {
     let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
 
     return Day(
       date: date,
       number: dateFormatter.string(from: date),
-      tasks: nil,
-//      isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
       isWithinDisplayedMonth: isWithinDisplayedMonth
     )
   }

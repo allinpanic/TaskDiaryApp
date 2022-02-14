@@ -10,15 +10,7 @@ import UIKit
 final class CalendarViewController: UIViewController {
 
   var calendarModel: CalendarModelProtocol!
-
-  lazy var contentView: CalendarView = {
-    let view = CalendarView()
-    view.calendarCollectionView.delegate = self
-    view.calendarCollectionView.dataSource = self
-    view.taskListTableView.delegate = self
-    view.taskListTableView.dataSource = self
-    return view
-  }()
+  var contentView: CalendarViewProtocol!
 
   private var selectedIndexPath: IndexPath?
   private var baseDate: Date = Date() {
@@ -29,7 +21,6 @@ final class CalendarViewController: UIViewController {
   }
 
   private lazy var days = calendarModel.generateDaysInMonth(for: baseDate)
-//  private var dayTasks: [Task] = []
 
   override func loadView() {
     super.loadView()
@@ -44,6 +35,10 @@ final class CalendarViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    contentView.calendarCollectionView.delegate = self
+    contentView.calendarCollectionView.dataSource = self
+    contentView.taskListTableView.delegate = self
+    contentView.taskListTableView.dataSource = self
     view.backgroundColor = .white
     title = "Календарь"
   }
@@ -174,6 +169,7 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     baseDate = nextMonthDate
     guard let selected = selectedIndexPath?.row else { return }
     calendarModel.selectedDate = days[selected].date
+    contentView.taskListTableView.reloadData()
   }
 
   func gotoPreviousMonth(_ headerView: CalendarHeaderView) {
@@ -181,5 +177,6 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     baseDate = previousMonthDate
     guard let selected = selectedIndexPath?.row else { return }
     calendarModel.selectedDate = days[selected].date
+    contentView.taskListTableView.reloadData()
   }
 }

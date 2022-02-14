@@ -37,7 +37,6 @@ final class CalendarHeaderView: UICollectionReusableView {
   private lazy var leftButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-//    button.setTitle("previous", for: .normal)
     button.setImage(UIImage(named: "left"), for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     button.addTarget(self, action: #selector(leftButtonPressed), for: .touchUpInside)
@@ -47,7 +46,6 @@ final class CalendarHeaderView: UICollectionReusableView {
   private lazy var rightButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-//    button.setTitle("next", for: .normal)
     button.setImage(UIImage(named: "right"), for: .normal)
     button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     button.addTarget(self, action: #selector(rightButtonPressed), for: .touchUpInside)
@@ -87,11 +85,9 @@ final class CalendarHeaderView: UICollectionReusableView {
 
   @objc private func leftButtonPressed() {
     delegate?.gotoPreviousMonth(self)
-    // reload table view
   }
 
   @objc private func rightButtonPressed() {
     delegate?.gotoNextMonth(self)
-    // reload table view
   }
 }

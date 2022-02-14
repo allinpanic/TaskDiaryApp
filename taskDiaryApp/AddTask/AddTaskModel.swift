@@ -27,6 +27,5 @@ final class AddTaskModel: AddTaskModelProtocol {
                       description: description)
       realm.add(task, update: .all)
     })
-    print("saving task")
   }
 }

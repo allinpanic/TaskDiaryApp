@@ -18,13 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var config = Realm.Configuration()
     config.deleteRealmIfMigrationNeeded = true
     Realm.Configuration.defaultConfiguration = config
+
     if #available(iOS 13, *) {
     } else {
       self.window = UIWindow()
-//      guard let realm = try? Realm() else {fatalError()}
       let calendarViewController = CalendarViewController()
       let calendarModel = CalendarModel()
+      let calendarView = CalendarView()
       calendarViewController.calendarModel = calendarModel
+      calendarViewController.contentView = calendarView
       let navigationController = UINavigationController(rootViewController: calendarViewController)
       self.window!.rootViewController = navigationController
       self.window!.makeKeyAndVisible()

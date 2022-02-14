@@ -184,18 +184,6 @@ final class AddTaskView: UIView {
       let startTime = startTimePicker.date
       let endTime = endTimePicker.date
 
-//      let startHour = Calendar.current.component(.hour, from: startTime)
-//      let startMinutes = Calendar.current.component(.minute, from: startTime)
-//      let endHour = Calendar.current.component(.hour, from: endTime)
-//      let endMinutes = Calendar.current.component(.minute, from: endTime)
-//
-//      guard let startDate = Calendar.current.date(bySettingHour: startHour,
-//                                                  minute: startMinutes,
-//                                                  second: 0, of: day) else { return }
-//      guard let endDate = Calendar.current.date(bySettingHour: endHour,
-//                                                minute: endMinutes,
-//                                                second: 0, of: day) else { return }
-
       guard let startDate = makeDate(day: day, time: startTime),
             let endDate = makeDate(day: day, time: endTime) else { return }
 

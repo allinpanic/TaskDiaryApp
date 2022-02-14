@@ -12,15 +12,13 @@ class TaskDetailView: UIView {
     didSet {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "HH:mm"
-      let startTime = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
-      let finishTime = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateFinish))
-
       dateFormatter.dateStyle = .medium
       let taskDate = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
 
       nameLabel.text = task.name
       dateLabel.text = taskDate
-      timeLabel.text = startTime + " - " + finishTime
+      timeLabel.text = makeTimeIntervalString(startTime: task.dateStart,
+                                              finishTime: task.dateFinish)
       descriptionTextView.text = task.desc
     }
   }
@@ -88,5 +86,14 @@ class TaskDetailView: UIView {
       descriptionTextView.heightAnchor.constraint(equalToConstant: 200),
       descriptionTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20)
     ])
+  }
+
+  private func makeTimeIntervalString(startTime: Double, finishTime: Double) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "ru_RU")
+    dateFormatter.dateFormat = "HH:mm"
+    let start = dateFormatter.string(from: Date(timeIntervalSince1970: startTime))
+    let finish = dateFormatter.string(from: Date(timeIntervalSince1970: finishTime))
+    return start + " - " + finish
   }
 }
