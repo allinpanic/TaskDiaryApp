@@ -9,7 +9,7 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
 
-  let model = TasksModel()
+  var calendarModel: CalendarModelProtocol!
 
   lazy var contentView: CalendarView = {
     let view = CalendarView()
@@ -23,20 +23,20 @@ final class CalendarViewController: UIViewController {
   private var selectedIndexPath: IndexPath?
   private var baseDate: Date = Date() {
     didSet {
-      days = model.generateDaysInMonth(for: baseDate)
+      days = calendarModel.generateDaysInMonth(for: baseDate)
       contentView.calendarCollectionView.reloadData()
     }
   }
 
-  private lazy var days = model.generateDaysInMonth(for: baseDate)
-  private var dayTasks: [Task] = []
+  private lazy var days = calendarModel.generateDaysInMonth(for: baseDate)
+//  private var dayTasks: [Task] = []
 
   override func loadView() {
     super.loadView()
 
     view = contentView
 
-    model.getTasks()
+    calendarModel.getTasks()
   }
 
   // MARK: - ViewDidLoad
@@ -59,10 +59,12 @@ final class CalendarViewController: UIViewController {
   }
 
   @objc private func addButtonPressed() {
-   print("add button pressed")    
     let viewController = AddTaskViewController()
+    let model = AddTaskModel()
+    let view = AddTaskView()
+    viewController.addTaskModel = model
+    viewController.contentView = view
     navigationController?.pushViewController(viewController, animated: true)
-
   }
 }
 
@@ -113,8 +115,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout, UICollecti
     selectedIndexPath = indexPath
     collectionView.reloadItems(at: cellsToReload)
 
-    let tasks = model.getTasks(forDate: day.date)
-    dayTasks = tasks
+    calendarModel.selectedDate = day.date
     contentView.taskListTableView.reloadData()
   }
 }
@@ -136,13 +137,13 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     cell.hour = hour
     cell.task = nil
 
-    if !dayTasks.isEmpty {
+    if !calendarModel.dayTasks.isEmpty {
       let hourPrefix = hour.prefix(2)
 
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "HH"
 
-      for task in dayTasks {
+      for task in calendarModel.dayTasks {
         let taskString = dateFormatter.string(from: Date(timeIntervalSince1970: task.dateStart))
         if hourPrefix == taskString {
           cell.task = task
@@ -171,10 +172,14 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
   func gotoNextMonth(_ headerView: CalendarHeaderView) {
     guard let nextMonthDate = Calendar.current.date(byAdding: .month, value: 1, to: baseDate) else {return}
     baseDate = nextMonthDate
+    guard let selected = selectedIndexPath?.row else { return }
+    calendarModel.selectedDate = days[selected].date
   }
 
   func gotoPreviousMonth(_ headerView: CalendarHeaderView) {
     guard let previousMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: baseDate) else {return}
     baseDate = previousMonthDate
+    guard let selected = selectedIndexPath?.row else { return }
+    calendarModel.selectedDate = days[selected].date
   }
 }

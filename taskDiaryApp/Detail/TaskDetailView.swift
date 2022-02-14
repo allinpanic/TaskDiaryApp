@@ -21,7 +21,7 @@ class TaskDetailView: UIView {
       nameLabel.text = task.name
       dateLabel.text = taskDate
       timeLabel.text = startTime + " - " + finishTime
-      descriptionTextView.text = task.description
+      descriptionTextView.text = task.desc
     }
   }
 

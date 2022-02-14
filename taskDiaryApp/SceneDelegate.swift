@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,8 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.windowScene = windowScene
+//    guard let realm = try? Realm() else {fatalError()}
+
+    var config = Realm.Configuration()
+    config.deleteRealmIfMigrationNeeded = true
+    Realm.Configuration.defaultConfiguration = config
 
     let calendarViewController = CalendarViewController()
+    let calendarModel = CalendarModel()
+    calendarViewController.calendarModel = calendarModel
     let navigationController = UINavigationController(rootViewController: calendarViewController)
     window!.rootViewController = navigationController
     window?.makeKeyAndVisible()

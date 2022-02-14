@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,10 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    var config = Realm.Configuration()
+    config.deleteRealmIfMigrationNeeded = true
+    Realm.Configuration.defaultConfiguration = config
     if #available(iOS 13, *) {
     } else {
       self.window = UIWindow()
+//      guard let realm = try? Realm() else {fatalError()}
       let calendarViewController = CalendarViewController()
+      let calendarModel = CalendarModel()
+      calendarViewController.calendarModel = calendarModel
       let navigationController = UINavigationController(rootViewController: calendarViewController)
       self.window!.rootViewController = navigationController
       self.window!.makeKeyAndVisible()

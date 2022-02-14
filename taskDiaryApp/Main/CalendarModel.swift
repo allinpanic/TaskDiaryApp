@@ -4,28 +4,48 @@
 //
 //  Created by Rodianov on 2/12/22.
 //
+// swiftlint:disable force_try
 
 import Foundation
+import RealmSwift
 
-protocol TaskModelProtocol: AnyObject {
+protocol CalendarModelProtocol: AnyObject {
   func getTasks()
   func generateDaysInMonth(for baseDate: Date) -> [Day]
   func numberOfWeeksInBaseDate(baseDate: Date) -> Int
+//  func getTasks(forDate date: Date) // -> [Task]
+
+  var dayTasks: LazyFilterSequence<Results<Task>> { get }
+  var selectedDate: Date { get set }
 }
 
-final class TasksModel: TaskModelProtocol {
+final class CalendarModel: CalendarModelProtocol {
 
-  var tasks: [Task]?
-  var dayTasks: [Task]?
+  var dayTasks: LazyFilterSequence<Results<Task>> {
+    let dayStart = Calendar.current.startOfDay(for: selectedDate)
+
+    var components = DateComponents()
+    components.day = 1
+    components.second = -1
+
+    let dayEnd = calendar.date(byAdding: components, to: dayStart)!
+
+    let dayStartTime = dayStart.timeIntervalSince1970
+    let dayEndTime = dayEnd.timeIntervalSince1970
+    let realm = try! Realm()
+
+    return realm.objects(Task.self).filter({$0.dateStart >= dayStartTime && $0.dateFinish <= dayEndTime})
+  }
+
+  var selectedDate: Date = Date()
+//  lazy var realm = try! Realm()
+
   private let calendar = Calendar.current
   private lazy var dateFormatter: DateFormatter = {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "d"
       return dateFormatter
     }()
-//  private var numberOfWeeksInBaseDate: Int {
-//    calendar.range(of: .weekOfMonth, in: .month, for: baseDate)?.count ?? 0
-//  }
 
   private func parseJson(json: Data) -> [Task]? {
     let decoder = JSONDecoder()
@@ -35,36 +55,23 @@ final class TasksModel: TaskModelProtocol {
   }
 
   func getTasks() {
+
     guard let jsondata = json.data(using: .utf8) else {return}
 
     guard let tasks = parseJson(json: jsondata) else {return}
-    self.tasks = tasks
+//    self.tasks = tasks
+
+    writeToRealm(tasks: tasks)
   }
 
-  func getTasks(forDate date: Date) -> [Task] {
-    var dayTasks: [Task] = []
-    let dayStart = Calendar.current.startOfDay(for: date)
+  private func writeToRealm(tasks: [Task]) {
+    lazy var realm = try! Realm()
 
-    var components = DateComponents()
-    components.day = 1
-    components.second = -1
-
-    guard let dayEnd = Calendar.current.date(byAdding: components, to: dayStart) else {return []}
-
-    let dayStartTime = dayStart.timeIntervalSince1970
-    let dayEndTime = dayEnd.timeIntervalSince1970
-
-    guard let tasks = tasks else {
-      return []
-    }
-
-    for task in tasks {
-      if task.dateStart >= dayStartTime && task.dateFinish <= dayEndTime {
-        dayTasks.append(task)
+      try! realm.write {
+        for task in tasks {
+          realm.add(task, update: .all)
+        }
       }
-    }
-
-    return dayTasks
   }
 
 // MARK: - Calendar functions

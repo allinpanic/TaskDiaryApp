@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303C0F2A282C150A64E733DB /* Pods_taskDiaryApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E56164C81C9A77B74C28F21 /* Pods_taskDiaryApp.framework */; };
 		E913D6A227B3012200D17A02 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913D6A127B3012200D17A02 /* CalendarDayCollectionViewCell.swift */; };
 		E913D6A427B30E0900D17A02 /* DetailTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913D6A327B30E0800D17A02 /* DetailTaskViewController.swift */; };
+		E94A13E927BA835E00D5E746 /* AddTaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A13E827BA835E00D5E746 /* AddTaskModel.swift */; };
 		E98F968727B825D700C67D17 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F968627B825D700C67D17 /* Json.swift */; };
-		E98F968927B82A0800C67D17 /* TasksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F968827B82A0800C67D17 /* TasksModel.swift */; };
+		E98F968927B82A0800C67D17 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F968827B82A0800C67D17 /* CalendarModel.swift */; };
 		E98F968B27B97EA000C67D17 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F968A27B97EA000C67D17 /* Constants.swift */; };
 		E98F968D27B97EC800C67D17 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F968C27B97EC800C67D17 /* Day.swift */; };
 		E98F969327B98E4900C67D17 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98F969227B98E4900C67D17 /* TaskDetailView.swift */; };
@@ -29,10 +31,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E56164C81C9A77B74C28F21 /* Pods_taskDiaryApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_taskDiaryApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C45A121FD158D81B935C4D3 /* Pods-taskDiaryApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-taskDiaryApp.release.xcconfig"; path = "Target Support Files/Pods-taskDiaryApp/Pods-taskDiaryApp.release.xcconfig"; sourceTree = "<group>"; };
+		74B566512B870A85CA7D5E07 /* Pods-taskDiaryApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-taskDiaryApp.debug.xcconfig"; path = "Target Support Files/Pods-taskDiaryApp/Pods-taskDiaryApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E913D6A127B3012200D17A02 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		E913D6A327B30E0800D17A02 /* DetailTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskViewController.swift; sourceTree = "<group>"; };
+		E94A13E827BA835E00D5E746 /* AddTaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskModel.swift; sourceTree = "<group>"; };
 		E98F968627B825D700C67D17 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
-		E98F968827B82A0800C67D17 /* TasksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksModel.swift; sourceTree = "<group>"; };
+		E98F968827B82A0800C67D17 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		E98F968A27B97EA000C67D17 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E98F968C27B97EC800C67D17 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		E98F969227B98E4900C67D17 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
@@ -57,12 +63,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303C0F2A282C150A64E733DB /* Pods_taskDiaryApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		634530047B983745E1E0166F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				74B566512B870A85CA7D5E07 /* Pods-taskDiaryApp.debug.xcconfig */,
+				6C45A121FD158D81B935C4D3 /* Pods-taskDiaryApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9F136ED1D071FF6C1395C6E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E56164C81C9A77B74C28F21 /* Pods_taskDiaryApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E913D6A527B30E1100D17A02 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +101,7 @@
 			children = (
 				E9BF734427B9A143007A1EA7 /* AddTaskViewController.swift */,
 				E9BF734627B9A17B007A1EA7 /* AddTaskView.swift */,
+				E94A13E827BA835E00D5E746 /* AddTaskModel.swift */,
 			);
 			path = AddTask;
 			sourceTree = "<group>";
@@ -86,6 +111,8 @@
 			children = (
 				E9E290B827B15AEE00AEAC98 /* taskDiaryApp */,
 				E9E290B727B15AEE00AEAC98 /* Products */,
+				634530047B983745E1E0166F /* Pods */,
+				9F136ED1D071FF6C1395C6E6 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -119,7 +146,7 @@
 			children = (
 				E9E290BD27B15AEE00AEAC98 /* CalendarViewController.swift */,
 				E9E290CF27B1768E00AEAC98 /* CalendarView.swift */,
-				E98F968827B82A0800C67D17 /* TasksModel.swift */,
+				E98F968827B82A0800C67D17 /* CalendarModel.swift */,
 				E9E290D527B1A8A100AEAC98 /* Subviews */,
 				E9E290D327B1877B00AEAC98 /* Task.swift */,
 				E98F968C27B97EC800C67D17 /* Day.swift */,
@@ -146,10 +173,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9E290CA27B15AEF00AEAC98 /* Build configuration list for PBXNativeTarget "taskDiaryApp" */;
 			buildPhases = (
+				C80FAB601D329BD8629F69E3 /* [CP] Check Pods Manifest.lock */,
 				E9E290CE27B168A600AEAC98 /* ShellScript */,
 				E9E290B227B15AEE00AEAC98 /* Sources */,
 				E9E290B327B15AEE00AEAC98 /* Frameworks */,
 				E9E290B427B15AEE00AEAC98 /* Resources */,
+				D0059EECA5C025014E0CDBC4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -206,6 +235,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C80FAB601D329BD8629F69E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-taskDiaryApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0059EECA5C025014E0CDBC4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-taskDiaryApp/Pods-taskDiaryApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-taskDiaryApp/Pods-taskDiaryApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-taskDiaryApp/Pods-taskDiaryApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E9E290CE27B168A600AEAC98 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,7 +302,7 @@
 				E9BF734527B9A143007A1EA7 /* AddTaskViewController.swift in Sources */,
 				E913D6A227B3012200D17A02 /* CalendarDayCollectionViewCell.swift in Sources */,
 				E9E290D727B1A8F000AEAC98 /* TaskTableViewCell.swift in Sources */,
-				E98F968927B82A0800C67D17 /* TasksModel.swift in Sources */,
+				E98F968927B82A0800C67D17 /* CalendarModel.swift in Sources */,
 				E9E290BE27B15AEE00AEAC98 /* CalendarViewController.swift in Sources */,
 				E9E290BA27B15AEE00AEAC98 /* AppDelegate.swift in Sources */,
 				E913D6A427B30E0900D17A02 /* DetailTaskViewController.swift in Sources */,
@@ -242,6 +310,7 @@
 				E98F968B27B97EA000C67D17 /* Constants.swift in Sources */,
 				E98F968727B825D700C67D17 /* Json.swift in Sources */,
 				E9E290D227B1856300AEAC98 /* CalendarHeaderView.swift in Sources */,
+				E94A13E927BA835E00D5E746 /* AddTaskModel.swift in Sources */,
 				E9E290D427B1877B00AEAC98 /* Task.swift in Sources */,
 				E9BF734727B9A17B007A1EA7 /* AddTaskView.swift in Sources */,
 				E9E290D027B1768E00AEAC98 /* CalendarView.swift in Sources */,
@@ -382,6 +451,7 @@
 		};
 		E9E290CB27B15AEF00AEAC98 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74B566512B870A85CA7D5E07 /* Pods-taskDiaryApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -410,6 +480,7 @@
 		};
 		E9E290CC27B15AEF00AEAC98 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C45A121FD158D81B935C4D3 /* Pods-taskDiaryApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
